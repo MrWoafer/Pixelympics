@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/100Sprint.unity
+    guid: 2be77cb9a6f479f45b2d7353d7d1c430
+  - enabled: 1
+    path: Assets/Scenes/400Metres.unity
+    guid: 96285e2bc0be7ba4fbf1199bf9d968c6
+  - enabled: 1
+    path: Assets/Scenes/200Metres.unity
+    guid: 38c0d07c914a6094cba5f2465b9f91ae
+  - enabled: 1
+    path: Assets/Scenes/Javelin.unity
+    guid: 9d14eeafd294ad54ca96b154dffa6885
+  - enabled: 1
+    path: Assets/Scenes/100Hurdles.unity
+    guid: 20ebeff309d1927458c8f27b620cae9b
+  - enabled: 1
+    path: Assets/Scenes/2x200Metres.unity
+    guid: 519ae5e413d4b1741a88d3b888ed5bf5
+  - enabled: 1
+    path: Assets/Scenes/10mDiving.unity
+    guid: 32f82842e1c5fb7448228ff1d84eb63e
+  - enabled: 1
+    path: Assets/Scenes/LongJump.unity
+    guid: faf14ce2e33fe9642a01438eb595d993
+  - enabled: 1
+    path: Assets/Scenes/BeachVolleyball.unity
+    guid: cd2e1c6ef68d6584c960357b83c973a5
+  - enabled: 1
+    path: Assets/Scenes/TripleJump.unity
+    guid: 50b493ca5ef23b34e9b30045fc1f3d7f
+  - enabled: 1
+    path: Assets/Scenes/HighJump.unity
+    guid: d050292d2dbc86f409a144e84c4e5561
+  - enabled: 1
+    path: Assets/Scenes/PoleVault.unity
+    guid: 1c0f1a9a19dad6d4c864db88d3b5534b
+  - enabled: 1
+    path: Assets/Scenes/Skeet.unity
+    guid: fd07d3d03a771db46937e01f8417b547
+  - enabled: 1
+    path: Assets/Scenes/Archery.unity
+    guid: 68f4e945d4e1b664589a081f5da1d032
+  - enabled: 1
+    path: Assets/Scenes/Hammer.unity
+    guid: bde715c1b306b3a4f94dd986bad8ab4c
+  - enabled: 1
+    path: Assets/Scenes/Medals.unity
+    guid: cc008c48e417dd24296b9b384696eada
+  - enabled: 1
+    path: Assets/Scenes/SkiJump.unity
+    guid: 07b86da2b660bfa4f81402eaab21adcd
+  - enabled: 1
+    path: Assets/Scenes/SpeedClimbing.unity
+    guid: a6b10337b68239d41aa295f3b193cf19
+  - enabled: 1
+    path: Assets/Scenes/Karate.unity
+    guid: cf25f1777cdcb4e4db89d841370fcae4
+  - enabled: 1
+    path: Assets/Scenes/Scoreboard.unity
+    guid: 8df5ec6c8c40a3f4a85993f9979b0580
+  - enabled: 1
+    path: Assets/Scenes/EventMedals.unity
+    guid: e58d7f5be427a864abbf452081075061
+  - enabled: 1
+    path: Assets/Scenes/Weightlifting.unity
+    guid: 31ab0c26f5b6e7740b34a399cca3fd81
+  - enabled: 1
+    path: Assets/Scenes/Wrestling.unity
+    guid: a68f9c4417cb0b040bc4ea20031d840e
+  - enabled: 1
+    path: Assets/Scenes/Rowing.unity
+    guid: 464c82594d5d7504bbc29260bc1206bd
+  - enabled: 1
+    path: Assets/Scenes/ShotPut.unity
+    guid: 0874e6b6f87be024cac21b935c49402a
+  - enabled: 1
+    path: Assets/Scenes/SwimmingFreestyle.unity
+    guid: f3caa9981c1c000499cb0d39fc49df54
+  m_configObjects: {}

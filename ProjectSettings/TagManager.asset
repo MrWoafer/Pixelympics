@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bar
+  - Mat
+  - Skeet
+  - Ground
+  - Target
+  - Ball
+  - Landing
+  - Ramp
+  - Chain
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - PostProcessing
+  - IgnoreWaterCamera
+  - WrestlingBall
+  - Player
+  - Ground
+  - Body
+  - Arm
+  - Leg
+  - BodyLeg
+  - Ski
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: VeryBack
+    uniqueID: 1240151825
+    locked: 0
+  - name: Background
+    uniqueID: 1346592873
+    locked: 0
+  - name: FrontBackground
+    uniqueID: 1340257013
+    locked: 0
+  - name: Court
+    uniqueID: 1696072319
+    locked: 0
+  - name: Lines
+    uniqueID: 2621671853
+    locked: 0
+  - name: WaterReflection
+    uniqueID: 536104369
+    locked: 0
+  - name: Sprites
+    uniqueID: 3126227467
+    locked: 0
+  - name: Sprites2
+    uniqueID: 3429372455
+    locked: 0
+  - name: Foreground
+    uniqueID: 2121220463
+    locked: 0
+  - name: FocusRing
+    uniqueID: 3388087243
+    locked: 0
+  - name: GUI
+    uniqueID: 3204044127
+    locked: 0
