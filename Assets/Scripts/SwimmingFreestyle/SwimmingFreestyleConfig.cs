@@ -131,7 +131,10 @@ public class SwimmingFreestyleConfig : MonoBehaviour
 
         if (startedCountdown)
         {
-            t += Time.deltaTime;
+            if (times.Count < 4)
+            {
+                t += Time.deltaTime;
+            }
 
             if (!started)
             {

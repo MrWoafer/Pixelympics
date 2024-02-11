@@ -548,11 +548,13 @@ public class SwimmingFreestylePlayer : MonoBehaviour
 
     private void BigSplash()
     {
-        Instantiate(bigSplashParticles, transform.position - new Vector3(0f, 3f / 16f * transform.lossyScale.y, 0f), Quaternion.Euler(0f, 0f, -15f));
+        GameObject particles = Instantiate(bigSplashParticles, transform.position - new Vector3(0f, 3f / 16f * transform.lossyScale.y, 0f), Quaternion.Euler(0f, 0f, -15f));
+        Destroy(particles, 2f);
     }
     private void SmallSplash()
     {
-        Instantiate(smallSplashParticles, transform.position - new Vector3(0f, 1f / 16f * transform.lossyScale.y, 0f), Quaternion.identity);
+        GameObject particles = Instantiate(smallSplashParticles, transform.position - new Vector3(0f, 1f / 16f * transform.lossyScale.y, 0f), Quaternion.identity);
+        Destroy(particles, 2f);
     }
 
     private float AIGetStartTime(Difficulty difficulty)
