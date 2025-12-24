@@ -311,16 +311,16 @@ public class SkiJumper : MonoBehaviour
         {
             offRamp = true;
             anim.SetTrigger("Fly");
-            Debug.Log((2f * rb.velocity.magnitude).ToString("n5") + "m/s");
+            Debug.Log((2f * rb.linearVelocity.magnitude).ToString("n5") + "m/s");
         }
         if(transform.position.x > config.hillEndX && !pastHillEnd)
         {
             pastHillEnd = true;
             distanceToFinish = config.finishX - transform.position.x;
-            finishStartingVelocity = rb.velocity.x;
+            finishStartingVelocity = rb.linearVelocity.x;
 
-            finishDeceleration = rb.velocity.x * rb.velocity.x / 2f / distanceToFinish;
-            timeTillFinish = rb.velocity.x / finishDeceleration;
+            finishDeceleration = rb.linearVelocity.x * rb.linearVelocity.x / 2f / distanceToFinish;
+            timeTillFinish = rb.linearVelocity.x / finishDeceleration;
             finishT = 0f;
         }
 
@@ -339,13 +339,13 @@ public class SkiJumper : MonoBehaviour
 
                 float d = Mathf.Clamp(d1 + d2, 0f, 0.5f);
 
-                rb.drag = Mathf.Pow(d, 2f) / 2f;
+                rb.linearDamping = Mathf.Pow(d, 2f) / 2f;
             }
             else if (transform.position.x > config.rampEndX && !dead)
             {
                 //rb.drag = config.GetDrag(rb.rotation);
                 //rb.drag = config.GetDrag(Mathf.Clamp(rb.rotation, -45f, 45f));
-                rb.drag = config.GetDrag(Mathf.Clamp(Functions.ModAngle(rb.rotation), -45f, 45f));
+                rb.linearDamping = config.GetDrag(Mathf.Clamp(Functions.ModAngle(rb.rotation), -45f, 45f));
 
                 if (CheckIfLanded() && !landed)
                 {
@@ -353,18 +353,18 @@ public class SkiJumper : MonoBehaviour
                 }
                 else if (landed)
                 {
-                    rb.drag = 0f;
+                    rb.linearDamping = 0f;
                 }
             }
 
             if (dead)
             {
-                snowParticlesDeadEmission.rateOverTime = Mathf.Clamp(6f * Mathf.Pow(rb.velocity.magnitude, 1.3f), 0f, 5000f);
+                snowParticlesDeadEmission.rateOverTime = Mathf.Clamp(6f * Mathf.Pow(rb.linearVelocity.magnitude, 1.3f), 0f, 5000f);
                 snowParticlesDead.transform.position = snowDeadCollisionPoint;
                 snowParticlesDead.transform.eulerAngles = new Vector3(-90f, 90f, -90f);
                 snowParticlesDead.transform.LookAt(snowParticlesDead.transform.position + snowDeadCollisionNormal);
 
-                snowParticlesDead2Emission.rateOverTime = Mathf.Clamp(6f * Mathf.Pow(rb.velocity.magnitude, 1.6f), 0f, 5000f);
+                snowParticlesDead2Emission.rateOverTime = Mathf.Clamp(6f * Mathf.Pow(rb.linearVelocity.magnitude, 1.6f), 0f, 5000f);
                 snowParticlesDead2.transform.eulerAngles = new Vector3(-90f, 90f, -90f);
 
                 //snowParticlesDeadEmission.rateOverTime = 0f;
@@ -449,7 +449,7 @@ public class SkiJumper : MonoBehaviour
 
             //snowParticlesSkiBack.transform.position = skiBack.position;
 
-            snowParticlesSkiBackEmission.rateOverTime = Mathf.Pow(rb.velocity.magnitude, 1.4f);
+            snowParticlesSkiBackEmission.rateOverTime = Mathf.Pow(rb.linearVelocity.magnitude, 1.4f);
             if (SkiBackIsOnSnow() && !skiBackOnSnow)
             {
                 skiBackOnSnow = true;
@@ -461,7 +461,7 @@ public class SkiJumper : MonoBehaviour
                 snowParticlesSkiBack.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             }
 
-            snowParticlesSkiFrontEmission.rateOverTime = Mathf.Pow(rb.velocity.magnitude, 1.4f);
+            snowParticlesSkiFrontEmission.rateOverTime = Mathf.Pow(rb.linearVelocity.magnitude, 1.4f);
             if (SkiFrontIsOnSnow() && !skiFrontOnSnow && !skiBackOnSnow)
             {
                 skiFrontOnSnow = true;
@@ -530,11 +530,11 @@ public class SkiJumper : MonoBehaviour
 
             if (finishStartingVelocity * finishStartingVelocity - 2f * finishDeceleration * (transform.position.x - config.hillEndX) >= 0f)
             {
-                rb.velocity = new Vector2(Mathf.Sqrt(finishStartingVelocity * finishStartingVelocity - 2f * finishDeceleration * (transform.position.x - config.hillEndX)), rb.velocity.y);
+                rb.linearVelocity = new Vector2(Mathf.Sqrt(finishStartingVelocity * finishStartingVelocity - 2f * finishDeceleration * (transform.position.x - config.hillEndX)), rb.linearVelocity.y);
             }
             else
             {
-                rb.velocity = new Vector2(0f, rb.velocity.y);
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
             }
         }
     }
@@ -783,7 +783,7 @@ public class SkiJumper : MonoBehaviour
         deadObj.SetActive(true);
         spriteObj.SetActive(false);
 
-        rb.velocity = rb.velocity;
+        rb.linearVelocity = rb.linearVelocity;
         rb.angularVelocity = rb.angularVelocity;
 
         ski1.SetActive(true);

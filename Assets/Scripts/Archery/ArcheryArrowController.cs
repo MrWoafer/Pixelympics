@@ -28,7 +28,7 @@ public class ArcheryArrowController : MonoBehaviour
     {
         if (fired && !landed)
         {
-            transform.eulerAngles = new Vector3(Mathf.Rad2Deg * Mathf.Atan(-rb.velocity.y / Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.z * rb.velocity.z)), transform.eulerAngles.y, transform.eulerAngles.z);
+            transform.eulerAngles = new Vector3(Mathf.Rad2Deg * Mathf.Atan(-rb.linearVelocity.y / Mathf.Sqrt(rb.linearVelocity.x * rb.linearVelocity.x + rb.linearVelocity.z * rb.linearVelocity.z)), transform.eulerAngles.y, transform.eulerAngles.z);
         }
         if (Mathf.Sqrt((transform.position.x - player.transform.position.x) * (transform.position.x - player.transform.position.x) + (transform.position.y - player.transform.position.y) * (transform.position.y - player.transform.position.y)
             + (transform.position.z - player.transform.position.z) * (transform.position.z - player.transform.position.z)) > 500f)
@@ -70,7 +70,7 @@ public class ArcheryArrowController : MonoBehaviour
 
     public void Fire(float speed, GameObject shotByPlayer, ArcheryConfig configReference)
     {
-        rb.velocity = transform.forward * speed;
+        rb.linearVelocity = transform.forward * speed;
         fired = true;
 
         player = shotByPlayer;
