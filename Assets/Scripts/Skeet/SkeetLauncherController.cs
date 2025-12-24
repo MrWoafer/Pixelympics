@@ -39,7 +39,7 @@ public class SkeetLauncherController : MonoBehaviour
     {
         launched = true;
         GameObject skeet = Instantiate(skeetPrefab, transform.position, transform.rotation);
-        skeet.GetComponent<Rigidbody>().velocity = skeet.transform.forward * speed * Mathf.Cos(angle * Mathf.Deg2Rad);
-        skeet.GetComponent<Rigidbody>().velocity += new Vector3(0f, speed * Mathf.Sin(angle * Mathf.Deg2Rad), 0f);
+        skeet.GetComponent<Rigidbody>().linearVelocity = skeet.transform.forward * speed * Mathf.Cos(angle * Mathf.Deg2Rad);
+        skeet.GetComponent<Rigidbody>().linearVelocity += new Vector3(0f, speed * Mathf.Sin(angle * Mathf.Deg2Rad), 0f);
     }
 }
