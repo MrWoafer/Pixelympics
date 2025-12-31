@@ -22,6 +22,7 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer spr;
+    private Animator anim;
 
     const float GRAVITY = 9.81f;
 
@@ -33,6 +34,7 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spr = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -66,13 +68,21 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
         if (Mathf.Abs(slipAngle) < pushThreshold && rb.linearVelocity.magnitude < maxSpeed && timeSlipAngleAlignedFor >= pushTime)
         {
             rb.AddRelativeForce(force * Vector2.up);
-            spr.color = Color.red;
-        }
-        else
-        {
-            spr.color = Color.black;
+
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Pushing"))
+            {
+                anim.SetTrigger("Pushing");
+            }
         }
 
+        if (angleSinceFixedUpdate > 0f && !anim.GetCurrentAnimatorStateInfo(0).IsName("Turn Left"))
+        {
+            anim.SetTrigger("Turn Left");
+        }
+        if (angleSinceFixedUpdate < 0f && !anim.GetCurrentAnimatorStateInfo(0).IsName("Turn Right"))
+        {
+            anim.SetTrigger("Turn Right");
+        }
         if (angleSinceFixedUpdate != 0f)
         {
             rb.SetRotation(rb.transform.eulerAngles.z + angleSinceFixedUpdate);
