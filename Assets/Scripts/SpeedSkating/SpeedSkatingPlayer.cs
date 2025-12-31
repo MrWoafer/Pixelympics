@@ -12,18 +12,16 @@ enum SpeedSkatingMovementState
 
 public class SpeedSkatingPlayer : MonoBehaviour
 {
-    private float timeSlipAngleAlignedFor = 0f;   
-
-    private float grossAngle = 0f;
-
     private Rigidbody2D rb;
     private Animator anim;
 
     private SpeedSkatingConfig config;
 
     private float angleSinceFixedUpdate = 0f;
+    private float grossAngle = 0f;
 
     private float slipAngle => Vector2.SignedAngle(rb.linearVelocity, rb.transform.up);
+    private float timeSlipAngleAlignedFor = 0f;
 
     private float frictionForce
     {
