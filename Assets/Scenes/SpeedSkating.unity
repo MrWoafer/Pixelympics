@@ -1106,7 +1106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &475437352
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1685,6 +1685,7 @@ GameObject:
   m_Component:
   - component: {fileID: 901550842}
   - component: {fileID: 901550843}
+  - component: {fileID: 901550844}
   m_Layer: 0
   m_Name: Middle
   m_TagString: Untagged
@@ -1737,6 +1738,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &901550844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901550841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561632ea309b9e649b0a6b0fbaed623f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &956906801
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,7 +3178,7 @@ Transform:
   m_GameObject: {fileID: 1603198374}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.4, y: -9.666667, z: 0}
+  m_LocalPosition: {x: -0.4, y: -11, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
