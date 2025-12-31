@@ -21,8 +21,6 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
     private SpeedSkatingConfig config;
 
-    const float GRAVITY = 9.81f;
-
     private float angleSinceFixedUpdate = 0f;
 
     private float slipAngle => Vector2.SignedAngle(rb.linearVelocity, rb.transform.up);
@@ -31,17 +29,8 @@ public class SpeedSkatingPlayer : MonoBehaviour
     {
         get
         {
-            float frictionFromAngle = Mathf.Sign(slipAngle) * maxFriction * config.slipAngleToFrictionScalar.Evaluate(Mathf.Abs(slipAngle) / config.frictionMaxGripAngle);
-            return Mathf.Min(frictionFromAngle, maxFriction);
-        }
-    }
-
-    private float maxFriction
-    {
-        get
-        {
-            float normalForce = rb.mass * GRAVITY;
-            return config.frictionCoefficient * normalForce;
+            float frictionFromAngle = Mathf.Sign(slipAngle) * config.maxFriction * config.slipAngleToFrictionScalar.Evaluate(Mathf.Abs(slipAngle) / config.frictionMaxGripAngle);
+            return Mathf.Min(frictionFromAngle, config.maxFriction);
         }
     }
 
@@ -203,7 +192,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
         GUIStyle guiStyle = new GUIStyle();
         guiStyle.normal.textColor = Color.black;
 
-        string text = $"Velocity: {rb.linearVelocity.x:F2}, {rb.linearVelocity.y:F2}\nSpeed: {rb.linearVelocity.magnitude:F2}\nAngular Velocity: {rb.angularVelocity:F2}\nSlip Angle: {slipAngle:F2}\nFriction: {frictionForce:F2} / {maxFriction:F2}\nMovement State: {movementState}\nGross Angle: {grossAngle:F2} / {config.grossAngleMax:F2}";
+        string text = $"Velocity: {rb.linearVelocity.x:F2}, {rb.linearVelocity.y:F2}\nSpeed: {rb.linearVelocity.magnitude:F2}\nAngular Velocity: {rb.angularVelocity:F2}\nSlip Angle: {slipAngle:F2}\nFriction: {frictionForce:F2} / {config.maxFriction:F2}\nMovement State: {movementState}\nGross Angle: {grossAngle:F2} / {config.grossAngleMax:F2}";
 
         GUI.Label(
             new Rect(10, 10, 250, 20),

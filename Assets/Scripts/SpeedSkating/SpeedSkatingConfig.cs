@@ -28,7 +28,7 @@ public class SpeedSkatingConfig : MonoBehaviour
 
     [Header("Friction Settings")]
     [Min(0f)]
-    public float frictionCoefficient = 2.3f;
+    public float maxFriction = 22.5f;
     [Min(0f)]
     public float frictionMaxGripAngle = 45f;
     public AnimationCurve slipAngleToFrictionScalar;
