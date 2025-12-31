@@ -127,11 +127,6 @@ public class SpeedSkatingPlayer : MonoBehaviour
             }
         }
 
-        if ((movementState == SpeedSkatingMovementState.TurningLeft || movementState == SpeedSkatingMovementState.TurningRight) && Mathf.Abs(grossAngle) < config.grossAngleTurningToPushingThreshold)
-        {
-            grossAngle = 0f;
-        }
-
         UpdateMovementState();
     }
 
@@ -162,6 +157,10 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
     private void UpdateMovementState()
     {
+        if (rb.linearVelocity.magnitude < config.pushSpeedThreshold)
+        {
+            movementState = SpeedSkatingMovementState.Pushing;
+        }
         if (grossAngle > config.grossAnglePushingToTurningThreshold)
         {
             movementState = SpeedSkatingMovementState.TurningLeft;
@@ -170,17 +169,21 @@ public class SpeedSkatingPlayer : MonoBehaviour
         {
             movementState = SpeedSkatingMovementState.TurningRight;
         }
+        else if ((movementState == SpeedSkatingMovementState.TurningLeft || movementState == SpeedSkatingMovementState.TurningRight) && Mathf.Abs(grossAngle) < config.grossAngleTurningToPushingThreshold)
+        {
+            grossAngle = 0f;
+            movementState = SpeedSkatingMovementState.Pushing;
+        }
         else if (grossAngle == 0f)
         {
             movementState = SpeedSkatingMovementState.Pushing;
         }
         else if (
-            rb.linearVelocity.magnitude < config.pushSpeedThreshold
-            || (
-                ((Mathf.Abs(slipAngle) < config.pushAngleThreshold && rb.linearVelocity.magnitude < config.maxSpeed)
-                || 180 - Mathf.Abs(slipAngle) < config.pushAngleThreshold)
-                && timeSlipAngleAlignedFor >= config.pushTime
+            (
+                (Mathf.Abs(slipAngle) < config.pushAngleThreshold && rb.linearVelocity.magnitude < config.maxSpeed)
+                || 180 - Mathf.Abs(slipAngle) < config.pushAngleThreshold
             )
+            && timeSlipAngleAlignedFor >= config.pushTime
         )
         {
             movementState = SpeedSkatingMovementState.Pushing;
