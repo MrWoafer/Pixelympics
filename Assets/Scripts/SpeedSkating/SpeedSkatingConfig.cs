@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class SpeedSkatingConfig : MonoBehaviour
 {
+    [Header("Development Settings")]
+    public bool disableRecordEligibility = false;
+
     [Header("Movement Settings")]
     [Min(0f)]
     public float maxSpeed = 14f;

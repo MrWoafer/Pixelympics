@@ -12,6 +12,23 @@ enum SpeedSkatingMovementState
 
 public class SpeedSkatingPlayer : MonoBehaviour
 {
+    [Header("Player Settings")]
+    public string playerName = "Test";
+    private int playerID;
+    public int playerNum = 0;
+    public bool isAI = false;
+    public Difficulty aiDifficulty = Difficulty.Hard;
+    public Color32 colour = new Color32(79, 148, 231, 255);
+
+    [Header("Controls")]
+    public string button1 = "a";
+    public string button2 = "d";
+    public string button3 = "w";
+    public string button4 = "s";
+    public string button5 = "e";
+
+    private bool eligibleForRecord = true;
+
     private Rigidbody2D rb;
     private Animator anim;
 
@@ -72,15 +89,42 @@ public class SpeedSkatingPlayer : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         config = FindFirstObjectByType<SpeedSkatingConfig>();
+
+        PlayerSettingsScript playerSettings = null;
+        try
+        {
+            playerSettings = GameObject.Find("PlayerSettings").GetComponent<PlayerSettingsScript>();
+        }
+        catch
+        {
+
+        }
+
+        if (playerSettings is not null)
+        {
+            playerName = playerSettings.names[playerNum];
+            playerID = playerSettings.playerIDs[playerNum];
+            isAI = playerSettings.isAI[playerNum];
+            aiDifficulty = playerSettings.difficulty[playerNum];
+        }
+
+        if (playerName == "Test")
+        {
+            eligibleForRecord = false;
+        }
+        if (config.disableRecordEligibility)
+        {
+            eligibleForRecord = false;
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(button3))
         {
             rb.AddRelativeForce(Vector2.up * config.pushingForce, ForceMode2D.Impulse);
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(button1))
         {
             angleSinceFixedUpdate += Time.deltaTime * config.angularVelocity;
             grossAngle += Time.deltaTime * config.angularVelocity;
@@ -89,7 +133,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
                 grossAngle = config.grossAngleMax;
             }
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(button2))
         {
             angleSinceFixedUpdate -= Time.deltaTime * config.angularVelocity;
             grossAngle -= Time.deltaTime * config.angularVelocity;
