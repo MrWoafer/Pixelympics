@@ -17,11 +17,9 @@ public class SpeedSkatingPlayer : MonoBehaviour
     private float grossAngle = 0f;
 
     private Rigidbody2D rb;
-    private SpriteRenderer spr;
     private Animator anim;
 
     private SpeedSkatingConfig config;
-    private SpeedSkatingTrack track;
 
     const float GRAVITY = 9.81f;
 
@@ -29,7 +27,23 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
     private float slipAngle => Vector2.SignedAngle(rb.linearVelocity, rb.transform.up);
 
-    private bool isInBend => Mathf.Abs(transform.position.x) > track.bendX;
+    private float frictionForce
+    {
+        get
+        {
+            float frictionFromAngle = Mathf.Sign(slipAngle) * maxFriction * config.slipAngleToFrictionScalar.Evaluate(Mathf.Abs(slipAngle) / config.frictionMaxGripAngle);
+            return Mathf.Min(frictionFromAngle, maxFriction);
+        }
+    }
+
+    private float maxFriction
+    {
+        get
+        {
+            float normalForce = rb.mass * GRAVITY;
+            return config.frictionCoefficient * normalForce;
+        }
+    }
 
     private SpeedSkatingMovementState _movement = SpeedSkatingMovementState.Idle;
     private SpeedSkatingMovementState movementState
@@ -43,16 +57,13 @@ public class SpeedSkatingPlayer : MonoBehaviour
                 return;
             }
             _movement = value;
-            timeInMovementState = 0f;
 
             switch (value)
             {
                 case SpeedSkatingMovementState.Idle:
-                    movementStateCountdown = 0f;
                     anim.SetTrigger("Idle");
                     break;
                 case SpeedSkatingMovementState.Pushing:
-                    movementStateCountdown = 0f;
                     anim.SetTrigger("Pushing");
                     break;
                 case SpeedSkatingMovementState.TurningLeft:
@@ -67,24 +78,20 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
         }
     }
-    private float timeInMovementState = 0f;
-    private float movementStateCountdown = 0f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        spr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
 
         config = FindFirstObjectByType<SpeedSkatingConfig>();
-        track = FindFirstObjectByType<SpeedSkatingTrack>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            rb.AddRelativeForce(Vector2.up * config.force, ForceMode2D.Impulse);
+            rb.AddRelativeForce(Vector2.up * config.pushingForce, ForceMode2D.Impulse);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -136,15 +143,6 @@ public class SpeedSkatingPlayer : MonoBehaviour
             grossAngle = 0f;
         }
 
-        timeInMovementState += Time.deltaTime;
-        if (movementStateCountdown > 0f)
-        {
-            movementStateCountdown -= Time.deltaTime;
-            if (movementStateCountdown < 0f)
-            {
-                movementStateCountdown = 0f;
-            }
-        }
         UpdateMovementState();
     }
 
@@ -156,12 +154,12 @@ public class SpeedSkatingPlayer : MonoBehaviour
         }
         else
         {
-            rb.AddRelativeForce(FrictionForce() * Vector2.left);
+            rb.AddRelativeForce(frictionForce * Vector2.left);
         }
 
         if (movementState == SpeedSkatingMovementState.Pushing)
         {
-            rb.AddRelativeForce(config.force * Vector2.up);
+            rb.AddRelativeForce(config.pushingForce * Vector2.up);
         }
 
         if (angleSinceFixedUpdate != 0f)
@@ -171,18 +169,6 @@ public class SpeedSkatingPlayer : MonoBehaviour
         }
 
         rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, config.maxSpeed);
-    }
-
-    private float FrictionForce()
-    {
-        float frictionFromAngle = Mathf.Sign(slipAngle) * MaxFriction() * config.slipAngleToFrictionScalar.Evaluate(Mathf.Abs(slipAngle) / config.frictionMaxGripAngle);
-        return Mathf.Min(frictionFromAngle, MaxFriction());
-    }
-
-    private float MaxFriction()
-    {
-        float normalForce = rb.mass * GRAVITY;
-        return config.frictionCoefficient * normalForce;
     }
 
     private void UpdateMovementState()
@@ -217,7 +203,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
         GUIStyle guiStyle = new GUIStyle();
         guiStyle.normal.textColor = Color.black;
 
-        string text = $"Velocity: {rb.linearVelocity.x:F2}, {rb.linearVelocity.y:F2}\nSpeed: {rb.linearVelocity.magnitude:F2}\nAngular Velocity: {rb.angularVelocity:F2}\nSlip Angle: {slipAngle:F2}\nFriction: {FrictionForce():F2} / {MaxFriction():F2}\nMovement State: {movementState}\nGross Angle: {grossAngle:F2} / {config.grossAngleMax:F2}";
+        string text = $"Velocity: {rb.linearVelocity.x:F2}, {rb.linearVelocity.y:F2}\nSpeed: {rb.linearVelocity.magnitude:F2}\nAngular Velocity: {rb.angularVelocity:F2}\nSlip Angle: {slipAngle:F2}\nFriction: {frictionForce:F2} / {maxFriction:F2}\nMovement State: {movementState}\nGross Angle: {grossAngle:F2} / {config.grossAngleMax:F2}";
 
         GUI.Label(
             new Rect(10, 10, 250, 20),
