@@ -1,3 +1,5 @@
+using System.Linq;
+
 using UnityEngine;
 
 public class SpeedSkatingTrack : MonoBehaviour
@@ -19,6 +21,9 @@ public class SpeedSkatingTrack : MonoBehaviour
     public float innerLineThickness = 1f;
     [Min(0f)]
     public float startLineThickness = 1f;
+
+    [Header("Players")]
+    public float playerStartX = 0f;
 
     [Header("References")]
     public Transform middleRectangle;
@@ -79,6 +84,13 @@ public class SpeedSkatingTrack : MonoBehaviour
         trackRectangle.localPosition = Vector3.zero;
         trackRightCircle.localPosition = new Vector3(bendX, 0f, 0f);
         trackLeftCircle.localPosition = new Vector3(-trackRightCircle.localPosition.x, 0f, 0f);
+
+        SpeedSkatingPlayer[] players = GameObject.FindObjectsByType<SpeedSkatingPlayer>(FindObjectsSortMode.None);
+        int numPlayers = players.Length;
+        foreach (SpeedSkatingPlayer player in players.OrderBy(p => p.playerNum))
+        {
+            player.transform.localPosition = new Vector3(playerStartX, -trackHeight / 2f + trackThickness - trackThickness / (numPlayers + 1) * (player.playerNum + 1), 0f);
+        }
     }
 
     private void UpdateDisplay()
