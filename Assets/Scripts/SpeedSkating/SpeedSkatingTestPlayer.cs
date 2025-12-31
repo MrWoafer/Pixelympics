@@ -1,4 +1,14 @@
+using System;
+
 using UnityEngine;
+
+enum SpeedSkatingMovementState
+{
+    Idle,
+    Pushing,
+    TurningLeft,
+    TurningRight,
+}
 
 public class SpeedSkatingTestPlayer : MonoBehaviour
 {
@@ -14,7 +24,9 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
     [Min(0f)]
     public float force = 1f;
     [Min(0f)]
-    public float pushThreshold = 1f;
+    public float pushAngleThreshold = 1f;
+    [Min(0f)]
+    public float pushSpeedThreshold = 1f;
     [Min(0f)]
     public float pushTime = 1f;
     private float timeSlipAngleAlignedFor = 0f;
@@ -29,6 +41,40 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
     private float angleSinceFixedUpdate = 0f;
 
     private float slipAngle => Vector2.SignedAngle(rb.linearVelocity, rb.transform.up);
+
+    private SpeedSkatingMovementState _movement = SpeedSkatingMovementState.Idle;
+    private SpeedSkatingMovementState movementState
+    {
+        get => _movement;
+        set
+        {
+            
+            if (value == _movement)
+            {
+                return;
+            }
+            _movement = value;
+
+            switch (value)
+            {
+                case SpeedSkatingMovementState.Idle:
+                    anim.SetTrigger("Idle");
+                    break;
+                case SpeedSkatingMovementState.Pushing:
+                    anim.SetTrigger("Pushing");
+                    break;
+                case SpeedSkatingMovementState.TurningLeft:
+                    anim.SetTrigger("Turn Left");
+                    break;
+                case SpeedSkatingMovementState.TurningRight:
+                    anim.SetTrigger("Turn Right");
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+        }
+    }
 
     private void Awake()
     {
@@ -51,13 +97,15 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
         {
             angleSinceFixedUpdate -= Time.deltaTime * angularVelocity;
         }
+
+        UpdateMovementState();
     }
 
     private void FixedUpdate()
     {
         rb.AddRelativeForce(FrictionForce() * Vector2.left);
 
-        if (Mathf.Abs(slipAngle) < pushThreshold)
+        if (Mathf.Abs(slipAngle) < pushAngleThreshold)
         {
             timeSlipAngleAlignedFor += Time.fixedDeltaTime;
         }
@@ -65,23 +113,18 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
         {
             timeSlipAngleAlignedFor = 0f;
         }
-        if (Mathf.Abs(slipAngle) < pushThreshold && rb.linearVelocity.magnitude < maxSpeed && timeSlipAngleAlignedFor >= pushTime)
+        if (movementState == SpeedSkatingMovementState.Pushing)
         {
             rb.AddRelativeForce(force * Vector2.up);
-
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Pushing"))
-            {
-                anim.SetTrigger("Pushing");
-            }
         }
 
-        if (angleSinceFixedUpdate > 0f && !anim.GetCurrentAnimatorStateInfo(0).IsName("Turn Left"))
+        if (angleSinceFixedUpdate > 0f)
         {
-            anim.SetTrigger("Turn Left");
+            movementState = SpeedSkatingMovementState.TurningLeft;
         }
-        if (angleSinceFixedUpdate < 0f && !anim.GetCurrentAnimatorStateInfo(0).IsName("Turn Right"))
+        if (angleSinceFixedUpdate < 0f)
         {
-            anim.SetTrigger("Turn Right");
+            movementState = SpeedSkatingMovementState.TurningRight;
         }
         if (angleSinceFixedUpdate != 0f)
         {
@@ -102,6 +145,14 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
     {
         float normalForce = rb.mass * GRAVITY;
         return frictionCoefficient * normalForce;
+    }
+
+    private void UpdateMovementState()
+    {
+        if (rb.linearVelocity.magnitude < pushSpeedThreshold || (Mathf.Abs(slipAngle) < pushAngleThreshold && rb.linearVelocity.magnitude < maxSpeed && timeSlipAngleAlignedFor >= pushTime))
+        {
+            movementState = SpeedSkatingMovementState.Pushing;
+        }
     }
 
     private void OnGUI()
