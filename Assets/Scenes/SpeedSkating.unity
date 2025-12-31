@@ -1198,6 +1198,87 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &735993698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735993699}
+  - component: {fileID: 735993700}
+  m_Layer: 0
+  m_Name: Config
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &735993699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735993698}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735993700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735993698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39321a1aaa2b6a1478cd23e841e469b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 14
+  angularVelocity: 150
+  frictionCoefficient: 2.3
+  frictionMaxGripAngle: 45
+  force: 5
+  pushAngleThreshold: 5
+  pushSpeedThreshold: 1
+  pushTime: 0.4
+  slipAngleSnapThreshold: 1
+  angleDecayPerSecond: 50
+  grossAnglePushingToTurningThreshold: 12
+  grossAngleTurningToPushingThreshold: 0
+  grossAngleMax: 15
+  slipAngleToFrictionScalar:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.5
+      outSlope: -0.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: -0.5
+      outSlope: -0.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &747577747
 GameObject:
   m_ObjectHideFlags: 0
@@ -2154,6 +2235,7 @@ MonoBehaviour:
   maxSpeed: 4
   torque: 3
   maxAngularSpeed: 250
+  rb: {fileID: 0}
 --- !u!1 &1354662549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2618,43 +2700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3abf118d1d1f44db272c64a6eee086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 14
-  angularVelocity: 150
-  frictionCoefficient: 2.3
-  frictionMaxGripAngle: 45
-  force: 5
-  pushAngleThreshold: 5
-  pushSpeedThreshold: 1
-  pushTime: 0.4
-  slipAngleSnapThreshold: 1
-  angleDecayPerSecond: 50
-  grossAnglePushingToTurningThreshold: 12
-  grossAngleTurningToPushingThreshold: 0
-  grossAngleMax: 15
-  slipAngleToFrictionScalar:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0.5
-      outSlope: -0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.5
-      inSlope: -0.5
-      outSlope: -0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &1603198378
 Transform:
   m_ObjectHideFlags: 0
@@ -3047,6 +3092,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 747577750}
+  - {fileID: 735993699}
   - {fileID: 1329980597}
   - {fileID: 1603198378}
   - {fileID: 1458565316}
