@@ -32,6 +32,8 @@ public class SpeedSkatingTrack : MonoBehaviour
     public Transform trackLeftCircle;
     public Transform trackRightCircle;
 
+    public float bendX => trackWidth / 2f - trackHeight / 2f;
+
     private void OnValidate()
     {
         UpdateTransform();
@@ -47,7 +49,7 @@ public class SpeedSkatingTrack : MonoBehaviour
         middleRightCircle.localScale = middleLeftCircle.localScale;
 
         middleRectangle.localPosition = Vector3.zero;
-        middleRightCircle.localPosition = new Vector3(trackWidth / 2f - trackHeight / 2f, 0f, 0f);
+        middleRightCircle.localPosition = new Vector3(bendX, 0f, 0f);
         middleLeftCircle.localPosition = new Vector3(-middleRightCircle.localPosition.x, 0f, 0f);
 
         // Inner line
@@ -57,7 +59,7 @@ public class SpeedSkatingTrack : MonoBehaviour
         innerLineRightCircle.localScale = innerLineLeftCircle.localScale;
 
         innerLineRectangle.localPosition = Vector3.zero;
-        innerLineRightCircle.localPosition = new Vector3(trackWidth / 2f - trackHeight / 2f, 0f, 0f);
+        innerLineRightCircle.localPosition = new Vector3(bendX, 0f, 0f);
         innerLineLeftCircle.localPosition = new Vector3(-innerLineRightCircle.localPosition.x, 0f, 0f);
 
         // Track
@@ -66,7 +68,7 @@ public class SpeedSkatingTrack : MonoBehaviour
         trackLeftCircle.localScale = trackRightCircle.localScale;
 
         trackRectangle.localPosition = Vector3.zero;
-        trackRightCircle.localPosition = new Vector3(trackWidth / 2f - trackHeight / 2f, 0f, 0f);
+        trackRightCircle.localPosition = new Vector3(bendX, 0f, 0f);
         trackLeftCircle.localPosition = new Vector3(-trackRightCircle.localPosition.x, 0f, 0f);
     }
 
