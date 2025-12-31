@@ -86,7 +86,7 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
                     anim.SetTrigger("Turn Left");
                     break;
                 case SpeedSkatingMovementState.TurningRight:
-                    //anim.SetTrigger("Turn Right");
+                    anim.SetTrigger("Turn Right");
                     break;
                 default:
                     throw new NotImplementedException();
@@ -156,7 +156,7 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
             }
         }
 
-        if (movementState == SpeedSkatingMovementState.TurningLeft && Mathf.Abs(grossAngle) < grossAngleTurningToPushingThreshold)
+        if ((movementState == SpeedSkatingMovementState.TurningLeft || movementState == SpeedSkatingMovementState.TurningRight) && Mathf.Abs(grossAngle) < grossAngleTurningToPushingThreshold)
         {
             grossAngle = 0f;
         }
@@ -212,9 +212,13 @@ public class SpeedSkatingTestPlayer : MonoBehaviour
 
     private void UpdateMovementState()
     {
-        if (grossAngle >= grossAnglePushingToTurningThreshold)
+        if (grossAngle > grossAnglePushingToTurningThreshold)
         {
             movementState = SpeedSkatingMovementState.TurningLeft;
+        }
+        if (grossAngle < -grossAnglePushingToTurningThreshold)
+        {
+            movementState = SpeedSkatingMovementState.TurningRight;
         }
         else if (grossAngle == 0f)
         {
