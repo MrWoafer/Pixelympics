@@ -6,6 +6,7 @@ public class SpeedSkatingTrack : MonoBehaviour
     public Color iceColour = Color.white;
     public Color borderColour = Color.blue;
     public Color innerLineColour = Color.red;
+    public Color startLineColour = Color.red;
 
     [Header("Shape")]
     [Min(0f)]
@@ -16,6 +17,8 @@ public class SpeedSkatingTrack : MonoBehaviour
     public float trackThickness = 1f;
     [Min(0f)]
     public float innerLineThickness = 1f;
+    [Min(0f)]
+    public float startLineThickness = 1f;
 
     [Header("References")]
     public Transform middleRectangle;
@@ -25,6 +28,8 @@ public class SpeedSkatingTrack : MonoBehaviour
     public Transform innerLineRectangle;
     public Transform innerLineLeftCircle;
     public Transform innerLineRightCircle;
+
+    public Transform startLine;
 
     public Transform outerRectangle;
 
@@ -62,6 +67,10 @@ public class SpeedSkatingTrack : MonoBehaviour
         innerLineRightCircle.localPosition = new Vector3(bendX, 0f, 0f);
         innerLineLeftCircle.localPosition = new Vector3(-innerLineRightCircle.localPosition.x, 0f, 0f);
 
+        // Start line
+        startLine.localScale = new Vector3(startLineThickness, trackThickness, 1f);
+        startLine.localPosition = new Vector3(0f, -trackHeight / 2f + trackThickness / 2f, 0f);
+
         // Track
         trackRectangle.localScale = new Vector3(trackWidth - trackHeight, trackHeight, 1f);
         trackRightCircle.localScale = new Vector3(trackHeight, trackHeight, 1f);
@@ -81,6 +90,8 @@ public class SpeedSkatingTrack : MonoBehaviour
         innerLineRectangle.GetComponent<SpriteRenderer>().color = innerLineColour;
         innerLineLeftCircle.GetComponent<SpriteRenderer>().color = innerLineColour;
         innerLineRightCircle.GetComponent<SpriteRenderer>().color = innerLineColour;
+
+        startLine.GetComponent<SpriteRenderer>().color = startLineColour;
 
         outerRectangle.GetComponent<SpriteRenderer>().color = borderColour;
 
