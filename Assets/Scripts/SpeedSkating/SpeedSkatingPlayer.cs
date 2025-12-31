@@ -4,7 +4,7 @@ using UnityEngine;
 
 enum SpeedSkatingMovementState
 {
-    Idle,
+    WaitingToStart,
     Pushing,
     TurningLeft,
     TurningRight,
@@ -34,7 +34,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
         }
     }
 
-    private SpeedSkatingMovementState _movement = SpeedSkatingMovementState.Idle;
+    private SpeedSkatingMovementState _movement = SpeedSkatingMovementState.WaitingToStart;
     private SpeedSkatingMovementState movementState
     {
         get => _movement;
@@ -49,7 +49,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
             switch (value)
             {
-                case SpeedSkatingMovementState.Idle:
+                case SpeedSkatingMovementState.WaitingToStart:
                     anim.SetTrigger("Idle");
                     break;
                 case SpeedSkatingMovementState.Pushing:
@@ -112,7 +112,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
         if (grossAngle > 0f)
         {
-            grossAngle -= config.angleDecayPerSecond * Time.deltaTime;
+            grossAngle -= config.grossAngleDecayPerSecond * Time.deltaTime;
             if (grossAngle < 0f)
             {
                 grossAngle = 0f;
@@ -120,7 +120,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
         }
         else if (grossAngle < 0f)
         {
-            grossAngle += config.angleDecayPerSecond * Time.deltaTime;
+            grossAngle += config.grossAngleDecayPerSecond * Time.deltaTime;
             if (grossAngle > 0f)
             {
                 grossAngle = 0f;
@@ -157,7 +157,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
     private void UpdateMovementState()
     {
-        if (rb.linearVelocity.magnitude < config.pushSpeedThreshold)
+        if (rb.linearVelocity.magnitude < config.overrideToPushSpeedThreshold)
         {
             movementState = SpeedSkatingMovementState.Pushing;
         }
@@ -183,7 +183,7 @@ public class SpeedSkatingPlayer : MonoBehaviour
                 (Mathf.Abs(slipAngle) < config.pushAngleThreshold && rb.linearVelocity.magnitude < config.maxSpeed)
                 || 180 - Mathf.Abs(slipAngle) < config.pushAngleThreshold
             )
-            && timeSlipAngleAlignedFor >= config.pushTime
+            && timeSlipAngleAlignedFor >= config.requiredTimeSlipAngleAlignedForPush
         )
         {
             movementState = SpeedSkatingMovementState.Pushing;

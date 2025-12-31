@@ -12,13 +12,13 @@ public class SpeedSkatingConfig : MonoBehaviour
     [Min(0f)]
     public float pushAngleThreshold = 5f;
     [Min(0f)]
-    public float pushSpeedThreshold = 1f;
+    public float overrideToPushSpeedThreshold = 1f;
     [Min(0f)]
-    public float pushTime = 0.4f;
+    public float requiredTimeSlipAngleAlignedForPush = 0.4f;
     [Min(0f)]
     public float slipAngleSnapThreshold = 1f;
     [Min(0f)]
-    public float angleDecayPerSecond = 50f;
+    public float grossAngleDecayPerSecond = 50f;
     [Min(0f)]
     public float grossAnglePushingToTurningThreshold = 12f;
     [Min(0f)]
