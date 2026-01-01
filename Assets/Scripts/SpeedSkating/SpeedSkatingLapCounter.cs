@@ -10,10 +10,27 @@ public class SpeedSkatingLapCounter : MonoBehaviour
     public UnityEvent<SpeedSkatingPlayer> onLapChanged = new();
 
     private Dictionary<SpeedSkatingPlayer, int> laps = new Dictionary<SpeedSkatingPlayer, int>();
+    private Dictionary<SpeedSkatingPlayer, bool> canIncrementLap = new Dictionary<SpeedSkatingPlayer, bool>();
     
     private void Awake()
     {
         ResetLaps();
+    }
+
+    private void Update()
+    {
+        List<SpeedSkatingPlayer> canIncrement = new List<SpeedSkatingPlayer>();
+        foreach (SpeedSkatingPlayer player in canIncrementLap.Keys)
+        {
+            if (!canIncrementLap[player] && player.transform.localPosition.x > 0f)
+            {
+                canIncrement.Add(player);
+            }
+        }
+        foreach (SpeedSkatingPlayer player in canIncrement)
+        {
+            canIncrementLap[player] = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,7 +41,7 @@ public class SpeedSkatingLapCounter : MonoBehaviour
             return;
         }
 
-        if (collision.attachedRigidbody.linearVelocity.x > 0f)
+        if (collision.attachedRigidbody.linearVelocity.x > 0f && canIncrementLap[player])
         {
             laps[player]++;
             onLapChanged.Invoke(player);
@@ -41,9 +58,11 @@ public class SpeedSkatingLapCounter : MonoBehaviour
     public void ResetLaps()
     {
         laps = new Dictionary<SpeedSkatingPlayer, int>();
+        canIncrementLap = new Dictionary<SpeedSkatingPlayer, bool>();
         foreach (SpeedSkatingPlayer player in GameObject.FindObjectsByType<SpeedSkatingPlayer>(FindObjectsSortMode.None))
         {
             laps.Add(player, 0);
+            canIncrementLap.Add(player, false);
         }
     }
 
