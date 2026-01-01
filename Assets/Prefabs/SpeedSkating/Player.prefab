@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1738417661293337046}
   - component: {fileID: 8674899708941224541}
   - component: {fileID: 5035338197294404906}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2931852176451305788}
   - component: {fileID: 2032975919047663521}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2601577595006141820}
   - component: {fileID: 5363234418996753506}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 4029340008872504415}
   - component: {fileID: 2156654338405288365}
   - component: {fileID: 5786141730979733757}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
