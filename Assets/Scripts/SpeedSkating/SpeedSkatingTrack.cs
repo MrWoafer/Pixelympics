@@ -46,11 +46,16 @@ public class SpeedSkatingTrack : MonoBehaviour
 
     private void OnValidate()
     {
-        UpdateTransform();
-        UpdateDisplay();
+        ResetTrack();
     }
 
-    private void UpdateTransform()
+    public void ResetTrack()
+    {
+        ResetTransform();
+        ResetDisplay();
+    }
+
+    private void ResetTransform()
     {
         // Middle
         float middleRadius = trackHeight / 2f - trackThickness - innerLineThickness;
@@ -90,10 +95,11 @@ public class SpeedSkatingTrack : MonoBehaviour
         foreach (SpeedSkatingPlayer player in players.OrderBy(p => p.playerNum))
         {
             player.transform.localPosition = new Vector3(playerStartX, -trackHeight / 2f + trackThickness - trackThickness / (numPlayers + 1) * (player.playerNum + 1), 0f);
+            player.transform.localEulerAngles = new Vector3(0f, 0f, -90f);
         }
     }
 
-    private void UpdateDisplay()
+    private void ResetDisplay()
     {
         middleRectangle.GetComponent<SpriteRenderer>().color = iceColour;
         middleLeftCircle.GetComponent<SpriteRenderer>().color = iceColour;

@@ -1,6 +1,7 @@
 using System;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 enum SpeedSkatingMovementState
 {
@@ -83,6 +84,8 @@ public class SpeedSkatingPlayer : MonoBehaviour
         }
     }
 
+    public UnityEvent onStart { get; private set; } = new();
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -120,6 +123,16 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
     private void Update()
     {
+        if (movementState == SpeedSkatingMovementState.WaitingToStart)
+        {
+            if (Input.GetKeyDown(button3))
+            {
+                movementState = SpeedSkatingMovementState.Pushing;
+                onStart.Invoke();
+            }
+            return;
+        }
+
         if (Input.GetKeyDown(button3))
         {
             rb.AddRelativeForce(Vector2.up * config.pushingForce, ForceMode2D.Impulse);
@@ -199,15 +212,19 @@ public class SpeedSkatingPlayer : MonoBehaviour
 
     private void UpdateMovementState()
     {
-        if (rb.linearVelocity.magnitude < config.overrideToPushSpeedThreshold)
+        if (movementState == SpeedSkatingMovementState.WaitingToStart)
+        {
+            return;
+        }
+        else if (rb.linearVelocity.magnitude < config.overrideToPushSpeedThreshold)
         {
             movementState = SpeedSkatingMovementState.Pushing;
         }
-        if (grossAngle > config.grossAnglePushingToTurningThreshold)
+        else if (grossAngle > config.grossAnglePushingToTurningThreshold)
         {
             movementState = SpeedSkatingMovementState.TurningLeft;
         }
-        if (grossAngle < -config.grossAnglePushingToTurningThreshold)
+        else if (grossAngle < -config.grossAnglePushingToTurningThreshold)
         {
             movementState = SpeedSkatingMovementState.TurningRight;
         }
@@ -230,6 +247,18 @@ public class SpeedSkatingPlayer : MonoBehaviour
         {
             movementState = SpeedSkatingMovementState.Pushing;
         }
+    }
+
+    public void ResetPlayer()
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        angleSinceFixedUpdate = 0f;
+        grossAngle = 0f;
+
+        timeSlipAngleAlignedFor = 0f;
+
+        movementState = SpeedSkatingMovementState.WaitingToStart;
     }
 
     private void OnGUI()

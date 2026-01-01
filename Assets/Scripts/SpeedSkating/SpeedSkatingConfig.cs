@@ -5,6 +5,10 @@ public class SpeedSkatingConfig : MonoBehaviour
     [Header("Development Settings")]
     public bool disableRecordEligibility = false;
 
+    [Header("Race Settings")]
+    [Min(1)]
+    public int numLaps = 10;
+
     [Header("Movement Settings")]
     [Min(0f)]
     public float maxSpeed = 14f;

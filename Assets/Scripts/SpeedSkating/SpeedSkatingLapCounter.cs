@@ -2,17 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SpeedSkatingLapCounter : MonoBehaviour
 {
-    Dictionary<SpeedSkatingPlayer, int> laps = new Dictionary<SpeedSkatingPlayer, int>();
+    [Header("Events")]
+    public UnityEvent<SpeedSkatingPlayer> onLapChanged = new();
 
-    private void Start()
+    private Dictionary<SpeedSkatingPlayer, int> laps = new Dictionary<SpeedSkatingPlayer, int>();
+    
+    private void Awake()
     {
-        foreach (SpeedSkatingPlayer player in GameObject.FindObjectsByType<SpeedSkatingPlayer>(FindObjectsSortMode.None))
-        {
-            laps.Add(player, 0);
-        }
+        ResetLaps();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,10 +27,23 @@ public class SpeedSkatingLapCounter : MonoBehaviour
         if (collision.attachedRigidbody.linearVelocity.x > 0f)
         {
             laps[player]++;
+            onLapChanged.Invoke(player);
         }
         else if (collision.attachedRigidbody.linearVelocity.x < 0f)
         {
             laps[player]--;
+            onLapChanged.Invoke(player);
+        }
+    }
+
+    public int Laps(SpeedSkatingPlayer player) => laps[player];
+
+    public void ResetLaps()
+    {
+        laps = new Dictionary<SpeedSkatingPlayer, int>();
+        foreach (SpeedSkatingPlayer player in GameObject.FindObjectsByType<SpeedSkatingPlayer>(FindObjectsSortMode.None))
+        {
+            laps.Add(player, 0);
         }
     }
 
@@ -38,10 +52,10 @@ public class SpeedSkatingLapCounter : MonoBehaviour
         GUIStyle guiStyle = new GUIStyle();
         guiStyle.normal.textColor = Color.black;
 
-        string text = "";
+        string text = "Laps:\n";
         foreach (SpeedSkatingPlayer player in laps.Keys.OrderBy(p => p.playerNum))
         {
-            text = text + $"{player.playerNum}: {laps[player]}\n";
+            text += $"{player.playerName}: {laps[player]}\n";
         }
 
         GUI.Label(
